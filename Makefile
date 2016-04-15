@@ -18,7 +18,7 @@ run:
 git:
 	$ git add .
 	$ git add -A
-	$ git commit -m "last"
+	$ git commit -m "V4.0"
 	$ git push origin master
 
 clean:

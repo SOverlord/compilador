@@ -1,5 +1,5 @@
 Compilador Aarón E. Santos Canela - A00397269
-V. 3.2
+V. 4.0
 Last Edit: 10 - Abril - 2016
 ASAntos
 
@@ -13,7 +13,13 @@ Con "make run" se encuentra configurado para ejecutar el archivo prueba1.txt
 /*=====================================================*/
 
 DETALLES
-No se lee ni agrega en la tabla.
-Por default, está configurado para tomar todas las variables nuevas como ya existentes.
+V 4.0
+-Crea tabla de símbolos de variables
+-Permite identificar la existencia o no de una nueva variable declarada. Si existe, arroja error; en caso contrario, la agrega a la pila.
+
+V 3.2
+-No se lee ni agrega en la tabla.
+-Por default, está configurado para tomar todas las variables nuevas como ya existentes.
+
 
 /*=====================================================*/
