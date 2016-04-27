@@ -4,27 +4,20 @@
 	#include "symbols.h"
 	int errores = 0;
 
-	addSymbol(char *symName){
-		symTable *s;
-		//printf("Iniciando busqueda\n");
-		s = getSymbol(symName);
-		//printf("Terminando busqueda\n");
-		//printf("s: %i", s);
-		if (s == 0){		//El símbolo no existe.
-		//	printf("+ + + + + + + + + + + + + + + + + El simbolo %s no existe\n", symName);
-			s = putSymbol(symName);
+	addSymbol(char *symName, char *type){
+		symTable *sym;
+		// Iniciando busqueda de simbolo
+		sym = getSymbol(symName);
+
+		if (sym == 0){	//El símbolo no existe.
+			sym = putSymbol(symName, type);
 		} else{		//El símbolo existe
 			errores++;
 			printf("El simbolo %s ya existe\n", symName);
 		}
-		//printf("= = = = = = = = = = = = = = = = = = = = = \n");
-		//printf("Errores: %i\n", errores);
-		//errores++;
 	}
+	printErrors(){		printf("Errores encontrados: %i\n", errores);	}
 
-	printErrors(){
-		printf("Errores encontrados: %i\n", errores);
-	}
 %}
  
 /*TIPOS*/
@@ -39,9 +32,9 @@
 	%token <intval>	ENTERO
 	%token <fval>	FLOTANTE
 	%token PR_BEGIN
-	%token PR_END
-	%token PR_INT
-	%token PR_FLOAT
+	%token <name>	PR_END
+	%token <name>	PR_INT
+	%token <name>	PR_FLOAT
 	%token PR_IF
 	%token THEN
 	%token WHILE
@@ -61,6 +54,7 @@
 	%token IGUAL
 	%token ASSIGN
 	%token PCOM
+	%type <name> tipo
 /*TOKENS*/
 
 /*ORDEN DE OPERADORES*/
@@ -81,11 +75,11 @@ decls 	:	decls PCOM dec
 		|	dec
 		;
 
-dec 	: tipo ID 	{printf("Simbolo: %s\n", $2); addSymbol( $2 ); }
+dec 	: tipo ID 	{addSymbol($2, $1); }
 		;
 
-tipo	:	PR_INT
-		|	PR_FLOAT
+tipo	:	PR_INT		{ $$="int"; }
+		|	PR_FLOAT	{ $$="float"; }
 		;
 
 stmt 	:	ID ASSIGN expr
@@ -121,6 +115,6 @@ term 	:	term MULT factor
 
 factor	:	OPEN_BRACKET expr CLOSE_BRACKET
 		|	ID
-		|	ENTERO								
-		|	FLOTANTE							
+		|	ENTERO
+		|	FLOTANTE
 		;

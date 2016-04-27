@@ -69,29 +69,22 @@
 	#include "symbols.h"
 	int errores = 0;
 
-	addSymbol(char *symName){
-		symTable *s;
-		//printf("Iniciando busqueda\n");
-		s = getSymbol(symName);
-		//printf("Terminando busqueda\n");
-		//printf("s: %i", s);
-		if (s == 0){		//El símbolo no existe.
-			printf("+ + + + + + + + + + + + + + + + + El simbolo %s no existe\n", symName);
-			s = putSymbol(symName);
+	addSymbol(char *symName, char *type){
+		symTable *sym;
+		// Iniciando busqueda de simbolo
+		sym = getSymbol(symName);
+
+		if (sym == 0){	//El símbolo no existe.
+			sym = putSymbol(symName, type);
 		} else{		//El símbolo existe
 			errores++;
-			printf("- - - - - - - - - - - - - - - - - El simbolo %s ya existe\n", symName);
+			printf("El simbolo %s ya existe\n", symName);
 		}
-		printf("= = = = = = = = = = = = = = = = = = = = = \n");
-		//printf("Errores: %i\n", errores);
-		//errores++;
 	}
+	printErrors(){		printf("Errores encontrados: %i\n", errores);	}
 
-	printErrors(){
-		printf("Errores encontrados: %i\n", errores);
-	}
 
-#line 95 "y.tab.c" /* yacc.c:339  */
+#line 88 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -187,13 +180,13 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 31 "gramatica.y" /* yacc.c:355  */
+#line 24 "gramatica.y" /* yacc.c:355  */
 
 	int 	intval;
 	float 	fval;
 	char	*name;
 
-#line 197 "y.tab.c" /* yacc.c:355  */
+#line 190 "y.tab.c" /* yacc.c:355  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -208,7 +201,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 212 "y.tab.c" /* yacc.c:358  */
+#line 205 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -508,10 +501,10 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    73,    73,    76,    77,    80,    81,    84,    87,    88,
-      91,    92,    93,    94,    95,    96,    97,   100,   103,   104,
-     107,   108,   109,   112,   113,   114,   117,   118,   119,   122,
-     123,   124,   125
+       0,    67,    67,    70,    71,    74,    75,    78,    81,    82,
+      85,    86,    87,    88,    89,    90,    91,    94,    97,    98,
+     101,   102,   103,   106,   107,   108,   111,   112,   113,   116,
+     117,   118,   119
 };
 #endif
 
@@ -1319,13 +1312,25 @@ yyreduce:
   switch (yyn)
     {
         case 7:
-#line 84 "gramatica.y" /* yacc.c:1646  */
-    {printf("Simbolo: %s\n", (yyvsp[0].name)); addSymbol( (yyvsp[0].name) ); }
-#line 1325 "y.tab.c" /* yacc.c:1646  */
+#line 78 "gramatica.y" /* yacc.c:1646  */
+    {addSymbol((yyvsp[0].name), (yyvsp[-1].name)); }
+#line 1318 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 8:
+#line 81 "gramatica.y" /* yacc.c:1646  */
+    { (yyval.name)="int"; }
+#line 1324 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 9:
+#line 82 "gramatica.y" /* yacc.c:1646  */
+    { (yyval.name)="float"; }
+#line 1330 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1329 "y.tab.c" /* yacc.c:1646  */
+#line 1334 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
